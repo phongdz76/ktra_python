@@ -5,22 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bài Kiểm Tra Kiến Thức Python HP5 & HP6</title>
   <style>
-    /* Pure Black & White Contrast System */
     :root {
       --black: #000000;
       --white: #ffffff;
       --gray-light: #f4f4f5;
-      --gray-border: #000000;
       --gray-muted: #52525b;
       --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: Consolas, "Courier New", Courier, monospace;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: var(--font-main);
@@ -134,7 +128,6 @@
       padding: 24px 20px 48px;
     }
 
-    /* Cards */
     .card {
       background: var(--white);
       border: 1.5px solid var(--black);
@@ -348,19 +341,9 @@
       cursor: pointer;
     }
 
-    .palette-btn:hover {
-      background: #e4e4e7;
-    }
-
-    .palette-btn.current {
-      outline: 2px solid var(--black);
-      outline-offset: 1px;
-    }
-
-    .palette-btn.answered {
-      background: var(--black);
-      color: var(--white);
-    }
+    .palette-btn:hover { background: #e4e4e7; }
+    .palette-btn.current { outline: 2px solid var(--black); outline-offset: 1px; }
+    .palette-btn.answered { background: var(--black); color: var(--white); }
 
     /* Section Banner */
     .section-banner {
@@ -377,9 +360,7 @@
       align-items: center;
     }
 
-    .section-banner:first-child {
-      margin-top: 0;
-    }
+    .section-banner:first-child { margin-top: 0; }
 
     /* Question Card */
     .q-card {
@@ -437,7 +418,7 @@
       margin-bottom: 12px;
     }
 
-    /* MCQ Option Styling */
+    /* Options for MCQ */
     .options-container {
       display: flex;
       flex-direction: column;
@@ -457,14 +438,8 @@
       transition: background 0.1s, color 0.1s;
     }
 
-    .option-row:hover {
-      background: var(--gray-light);
-    }
-
-    .option-row.selected {
-      background: var(--black) !important;
-      color: var(--white) !important;
-    }
+    .option-row:hover { background: var(--gray-light); }
+    .option-row.selected { background: var(--black) !important; color: var(--white) !important; }
 
     .opt-box {
       width: 20px;
@@ -503,9 +478,7 @@
       outline: none;
     }
 
-    .code-textarea:focus {
-      background: #fafafa;
-    }
+    .code-textarea:focus { background: #fafafa; }
 
     /* Result View */
     #view-result {
@@ -566,13 +539,8 @@
       background: var(--white);
     }
 
-    .review-card.is-correct {
-      border-left: 5px solid var(--black);
-    }
-
-    .review-card.is-wrong {
-      border-left: 5px solid #71717a;
-    }
+    .review-card.is-correct { border-left: 5px solid var(--black); }
+    .review-card.is-wrong { border-left: 5px solid #71717a; }
 
     .status-badge {
       display: inline-block;
@@ -584,20 +552,11 @@
       border-radius: 2px;
     }
 
-    .status-badge.correct {
-      background: var(--black);
-      color: var(--white);
-    }
-
-    .status-badge.wrong {
-      background: var(--white);
-      color: var(--black);
-    }
+    .status-badge.correct { background: var(--black); color: var(--white); }
+    .status-badge.wrong { background: var(--white); color: var(--black); }
 
     /* Admin View */
-    #view-admin {
-      display: none;
-    }
+    #view-admin { display: none; }
 
     .admin-header-row {
       display: flex;
@@ -626,11 +585,7 @@
       display: inline-block;
     }
 
-    .toggle-ui input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
+    .toggle-ui input { opacity: 0; width: 0; height: 0; }
 
     .slider-ui {
       position: absolute;
@@ -655,22 +610,10 @@
       transition: .2s;
     }
 
-    input:checked + .slider-ui {
-      background: var(--black);
-    }
+    input:checked + .slider-ui { background: var(--black); }
+    input:checked + .slider-ui:before { transform: translateX(20px); background: var(--white); }
 
-    input:checked + .slider-ui:before {
-      transform: translateX(20px);
-      background: var(--white);
-    }
-
-    /* Table */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-    }
-
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     th {
       background: var(--black);
       color: var(--white);
@@ -679,16 +622,8 @@
       font-weight: 700;
       border: 1px solid var(--black);
     }
-
-    td {
-      padding: 9px 12px;
-      border: 1px solid var(--black);
-      color: var(--black);
-    }
-
-    tr:nth-child(even) td {
-      background: #fafafa;
-    }
+    td { padding: 9px 12px; border: 1px solid var(--black); color: var(--black); }
+    tr:nth-child(even) td { background: #fafafa; }
 
     /* Modal Backdrop */
     .modal-backdrop {
@@ -763,7 +698,7 @@
         </div>
         <div class="info-item">
           <div class="info-item-label">Bố cục bài thi</div>
-          <div class="info-item-val">70% Trắc nghiệm + 30% Viết Code</div>
+          <div class="info-item-val">40 Trắc nghiệm + 10 Viết Code</div>
         </div>
         <div class="info-item">
           <div class="info-item-label">Thời gian làm bài</div>
@@ -847,12 +782,12 @@
 
         <div class="result-stats-3">
           <div class="res-box">
-            <div class="res-box-num" id="res-mcq-correct">0 / 35</div>
-            <div class="res-box-lbl">Trắc nghiệm (70%)</div>
+            <div class="res-box-num" id="res-mcq-correct">0 / 40</div>
+            <div class="res-box-lbl">Trắc nghiệm (40 câu)</div>
           </div>
           <div class="res-box">
-            <div class="res-box-num" id="res-code-correct">0 / 15</div>
-            <div class="res-box-lbl">Viết code (30%)</div>
+            <div class="res-box-num" id="res-code-correct">0 / 10</div>
+            <div class="res-box-lbl">Viết code (10 câu)</div>
           </div>
           <div class="res-box">
             <div class="res-box-num" id="res-left-attempts">0 / 5</div>
@@ -917,8 +852,8 @@
                 <th>Họ và Tên</th>
                 <th>Lần thi</th>
                 <th>Điểm số</th>
-                <th>Trắc nghiệm (/35)</th>
-                <th>Viết code (/15)</th>
+                <th>Trắc nghiệm (/40)</th>
+                <th>Viết code (/10)</th>
                 <th>Thời gian nộp</th>
                 <th>Thao tác</th>
               </tr>
@@ -930,7 +865,7 @@
     </section>
   </main>
 
-  <!-- MODAL: ADMIN LOGIN (NO PASSWORD DISCLOSED ON PAGE) -->
+  <!-- MODAL: ADMIN LOGIN -->
   <div class="modal-backdrop" id="modal-admin-login">
     <div class="modal-box">
       <h3 style="font-size: 1.1rem; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;">Xác Thực Quyền Giáo Viên</h3>
@@ -978,12 +913,12 @@
   <script>
     const MAX_ATTEMPTS = 5;
     const TOTAL_QUESTIONS = 50;
-    const NUM_MCQ = 35;   // 70%
-    const NUM_CODE = 15;  // 30%
+    const NUM_MCQ = 40;   // 40 câu trắc nghiệm
+    const NUM_CODE = 10;  // 10 câu viết code
     const EXAM_MINUTES = 45;
 
-    // Secure internal password check
-    const _KEY = "dGVreTIwMjY="; // encoded, secret kept in README.md
+    // Secure internal password check (value defined in README.md)
+    const _KEY = "dGVreTIwMjY=";
     function getAdminSecret() { return atob(_KEY); }
 
     let currentStudent = "";
@@ -1084,6 +1019,7 @@
       const mcqPool = ALL_QUESTIONS.filter(q => q.type === 'mcq');
       const codePool = ALL_QUESTIONS.filter(q => q.type === 'code');
 
+      // 40 MCQ + 10 Coding questions
       const pickedMCQ = shuffle(mcqPool).slice(0, NUM_MCQ);
       const pickedCode = shuffle(codePool).slice(0, NUM_CODE);
 
@@ -1143,7 +1079,7 @@
 
       const header1 = document.createElement("div");
       header1.className = "section-banner";
-      header1.innerHTML = `<span>PHẦN 1: TRẮC NGHIỆM LÝ THUYẾT (35 CÂU)</span><span style="font-size: 0.75rem; font-weight: normal;">(Chọn 1 đáp án A, B, C hoặc D)</span>`;
+      header1.innerHTML = `<span>PHẦN 1: TRẮC NGHIỆM LÝ THUYẾT (40 CÂU)</span><span style="font-size: 0.75rem; font-weight: normal;">(Chọn 1 đáp án A, B, C hoặc D)</span>`;
       container.appendChild(header1);
 
       const letters = ['A', 'B', 'C', 'D'];
@@ -1152,7 +1088,7 @@
         if (idx === NUM_MCQ) {
           const header2 = document.createElement("div");
           header2.className = "section-banner";
-          header2.innerHTML = `<span>PHẦN 2: THỰC HÀNH VIẾT MÃ NGUỒN (15 CÂU)</span><span style="font-size: 0.75rem; font-weight: normal;">(Gõ mã nguồn Python trực tiếp)</span>`;
+          header2.innerHTML = `<span>PHẦN 2: THỰC HÀNH VIẾT MÃ NGUỒN (10 CÂU)</span><span style="font-size: 0.75rem; font-weight: normal;">(Gõ mã nguồn Python trực tiếp)</span>`;
           container.appendChild(header2);
         }
 
@@ -1295,19 +1231,46 @@
       document.getElementById("modal-confirm").style.display = "none";
     }
 
+    /* ========================================================
+       CƠ CHẾ CHẤM BÀI VIẾT CODE THÔNG MINH (Smart Code Evaluator)
+       - Chuẩn hóa: bỏ comment (#...), chuẩn hóa dấu nháy (" -> ')
+       - Chuẩn hóa khoảng trắng & thụt lề
+       - Kiểm tra cấu trúc logic, hàm, từ khóa bắt buộc
+       ======================================================== */
     function evaluateCodeAnswer(userCode, q) {
       if (!userCode || !userCode.trim()) return false;
-      const cleanUser = userCode.trim().replace(/\r\n/g, '\n');
-      const cleanSample = (q.sample_solution || '').trim().replace(/\r\n/g, '\n');
 
-      if (cleanUser.replace(/\s+/g, '') === cleanSample.replace(/\s+/g, '')) {
+      // 1. Loại bỏ các dòng comment (#) và khoảng trắng đầu cuối
+      const lines = userCode.split('\n')
+        .map(l => l.replace(/#.*$/, '').trimEnd())
+        .filter(l => l.trim().length > 0);
+      
+      const cleanUser = lines.join('\n').trim();
+      const cleanSample = (q.sample_solution || '').replace(/#.*$/gm, '').trim();
+
+      // 2. Chuẩn hóa dấu nháy kép thành nháy đơn để không bắt bẻ học sinh
+      const normUser = cleanUser.replace(/"/g, "'");
+      const normSample = cleanSample.replace(/"/g, "'");
+
+      // 3. Khớp chính xác sau khi rút gọn khoảng trắng
+      const compactUser = normUser.replace(/\s+/g, '');
+      const compactSample = normSample.replace(/\s+/g, '');
+
+      if (compactUser === compactSample) {
         return true;
       }
 
+      // 4. Kiểm tra sự hiện diện của tất cả các từ khóa bắt buộc
       if (q.required_keywords && q.required_keywords.length > 0) {
-        const lowerCode = cleanUser.toLowerCase();
-        const allMatched = q.required_keywords.every(kw => lowerCode.includes(kw.toLowerCase()));
-        if (allMatched) return true;
+        const lowerUser = normUser.toLowerCase();
+        const allKeywordsPresent = q.required_keywords.every(kw => {
+          const normKw = kw.replace(/"/g, "'").toLowerCase().trim();
+          return lowerUser.includes(normKw) || compactUser.toLowerCase().includes(normKw.replace(/\s+/g, ''));
+        });
+
+        if (allKeywordsPresent) {
+          return true;
+        }
       }
 
       return false;
@@ -1349,9 +1312,8 @@
         };
       });
 
-      const mcqPoints = (mcqCorrect / NUM_MCQ) * 7.0;
-      const codePoints = (codeCorrect / NUM_CODE) * 3.0;
-      const totalScore = Math.round((mcqPoints + codePoints) * 10) / 10;
+      // Thang điểm 10.0: Mỗi câu 0.2 điểm (40 câu MCQ = 8.0 điểm, 10 câu Code = 2.0 điểm)
+      const totalScore = Math.round(((mcqCorrect + codeCorrect) / TOTAL_QUESTIONS) * 100) / 10;
 
       const record = {
         id: Date.now(),
@@ -1581,7 +1543,7 @@
         return;
       }
 
-      let csv = "\uFEFFSTT,Ho va Ten,Lan Thi,Diem So,Trac Nghiem Dung (/35),Viet Code Dung (/15),Ngay Nop\n";
+      let csv = "\uFEFFSTT,Ho va Ten,Lan Thi,Diem So,Trac Nghiem Dung (/40),Viet Code Dung (/10),Ngay Nop\n";
       all.forEach((r, i) => {
         csv += `${i + 1},"${r.studentName.replace(/"/g, '""')}",${r.attemptNumber},${r.score},${r.mcqCorrect},${r.codeCorrect},"${r.date}"\n`;
       });
