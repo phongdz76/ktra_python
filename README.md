@@ -48,19 +48,48 @@ Hệ thống sử dụng bộ chấm điểm thông minh 4 tầng tự động (
 
 ## 📁 Cấu Trúc Thư Mục Tinh Gọn (GitHub Pages)
 
-Chỉ gồm **3 file duy nhất** ở thư mục gốc:
-- `index.html`: Toàn bộ giao diện thi, xem kết quả và trang quản trị giáo viên.
+Chỉ gồm các file tinh gọn ở thư mục gốc:
+- `index.html`: Toàn bộ giao diện thi, xem kết quả, tự động đồng bộ Google Sheets và trang quản trị giáo viên.
 - `questions_data.js`: Ngân hàng 100 câu hỏi (70 trắc nghiệm + 30 câu viết code).
-- `README.md`: Hướng dẫn sử dụng, giải thích cơ chế chấm và lưu mật khẩu Admin.
+- `GoogleAppsScript.js`: Mã nguồn Apps Script gắn vào Google Sheet để nhận dữ liệu từ học sinh.
+- `README.md`: Hướng dẫn sử dụng & cấu hình.
+
+---
+
+## 📊 HƯỚNG DẪN KẾT NỐI DATABASE GOOGLE SHEETS (1 PHÚT)
+
+Để mọi bài thi tự động đổ về bảng điểm của Giáo viên:
+
+1. **Mở Google Drive** -> Tạo 1 file **Google Trang tính (Google Sheets)** mới.
+2. Đặt tên: `Bảng Điểm Python Teky`.
+3. Vào menu: **Tiện ích mở rộng (Extensions)** -> **Apps Script**.
+4. Xóa hết code cũ, mở file [GoogleAppsScript.js](file:///d:/Work%20in%20Teky/Teky%20Python/ktra_python/GoogleAppsScript.js) copy toàn bộ và dán vào -> Nhấn **Lưu (Ctrl + S)**.
+5. Nhấn **Triển khai (Deploy)** -> **Tùy chọn triển khai mới (New deployment)**.
+6. Chọn loại: **Ứng dụng web (Web app)**:
+   - *Execute as (Thực thi dưới dạng):* **Tôi (email của bạn)**
+   - *Who has access (Ai có quyền truy cập):* **Bất kỳ ai (Anyone)**  *(Bắt buộc để học sinh gửi bài được)*
+7. Nhấn **Triển khai** và copy đường link Web App (`https://script.google.com/macros/s/.../exec`).
+8. Dán link này vào mục **Cơ Sở Dữ Liệu Google Sheets** trong trang **Quản Trị (Admin)** trên web (hoặc dán vào biến `HARDCODED_CLOUD_URL` trong file `index.html`).
+
+---
+
+## ⚡ CÁCH LẤY LẠI ĐIỂM CỦA HỌC SINH ĐÃ LÀM BÀI TRƯỚC ĐÓ
+
+1. Sau khi cấu hình link Google Sheets và đưa lên GitHub Pages.
+2. Giáo viên chỉ cần nhắn học sinh: 
+   > *"Các em mở lại đúng trình duyệt trên máy vừa làm, bấm vào link bài thi 1 lần để hệ thống tự động ghi nhận điểm cho các em."*
+3. Hệ thống sẽ tự động quét bộ nhớ `localStorage` trên máy học sinh và âm thầm đẩy toàn bộ kết quả lên Google Sheet của Giáo viên trong vòng 1 giây (học sinh không cần làm lại bài).
+4. Học sinh cũng có nút **"Tải file điểm (.csv)"** ngay trên màn hình để gửi trực tiếp cho Thầy/Cô nếu cần.
 
 ---
 
 ## 🛠 Hướng Dẫn Kích Hoạt GitHub Pages
 
-1. Đưa 3 file trên lên một Repository trên GitHub (nhánh `main`).
+1. Đưa các file trên lên Repository trên GitHub (nhánh `main`).
 2. Vào **Settings** của Repo -> Chọn mục **Pages** ở thanh menu bên trái.
 3. Tại phần **Branch**, chọn nhánh `main` và thư mục `/(root)` -> Nhấn **Save**.
 4. Sau 1 phút, link bài thi sẽ hoạt động:
    `https://<ten-user>.github.io/<ten-repo>/`
 
 *(Hoặc mở trực tiếp file `index.html` trên máy tính bằng bất kỳ trình duyệt nào).*
+

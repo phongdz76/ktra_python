@@ -691,6 +691,26 @@
         <p>Hệ thống đánh giá kiến thức lý thuyết và năng lực lập trình thực tế.</p>
       </div>
 
+      <!-- Sync Banner for previously saved exams on this device -->
+      <div id="sync-banner" style="display: none; padding: 14px 16px; margin-bottom: 20px; border: 2px solid var(--black); background: #fafafa; border-radius: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div id="sync-banner-title" style="font-weight: 800; font-size: 0.95rem;">🔄 Phát hiện bài thi cũ trên máy này</div>
+            <div id="sync-banner-desc" style="font-size: 0.82rem; color: var(--gray-muted); margin-top: 2px;">
+              Hệ thống đang tự động đồng bộ kết quả lên máy Giáo viên...
+            </div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button id="btn-manual-sync" class="btn btn-solid-black" style="font-size: 0.8rem; padding: 6px 12px;" onclick="checkAndAutoSync(true)">
+              Đồng bộ ngay
+            </button>
+            <button class="btn btn-outline-black" style="font-size: 0.8rem; padding: 6px 12px;" onclick="exportStudentCSV()">
+              📥 Tải file điểm
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="info-grid">
         <div class="info-item">
           <div class="info-item-label">Số lượng câu hỏi</div>
@@ -779,6 +799,9 @@
         <div class="score-big" id="res-score">0.0</div>
         <div style="font-size: 0.95rem; font-weight: 800;" id="res-grade">KẾT QUẢ</div>
         <div style="font-size: 0.85rem; color: var(--gray-muted); margin-top: 4px;" id="res-meta">Học viên: ...</div>
+        <div id="res-cloud-status" style="display: inline-block; font-size: 0.8rem; font-weight: 700; padding: 4px 10px; border-radius: 3px; margin-top: 8px; border: 1px solid var(--black); background: #fafafa;">
+          ⏳ Đang gửi kết quả lên hệ thống giáo viên...
+        </div>
 
         <div class="result-stats-3">
           <div class="res-box">
@@ -799,8 +822,9 @@
           Giáo viên đang <strong>tắt</strong> hiển thị đáp án và giải thích chi tiết cho bài thi này.
         </div>
 
-        <div style="display: flex; gap: 8px; justify-content: center; margin-top: 18px;">
+        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 18px;">
           <button id="btn-retake-exam" class="btn btn-solid-black" onclick="retakeExam()">Làm lại bài thi</button>
+          <button class="btn btn-outline-black" onclick="exportStudentCSV()">📥 Tải file điểm (.csv)</button>
           <button class="btn btn-outline-black" onclick="goHome()">Về trang chủ</button>
         </div>
       </div>
@@ -835,6 +859,32 @@
             <span class="slider-ui"></span>
           </label>
         </div>
+      </div>
+
+      <!-- Cloud Google Sheets Config -->
+      <div class="card" style="padding: 16px; margin-bottom: 20px; border: 1.5px solid var(--black);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h3 style="font-size: 0.95rem; font-weight: 800; text-transform: uppercase;">Cơ Sở Dữ Liệu Google Sheets (Đám Mây)</h3>
+              <span id="cloud-badge" class="q-badge" style="background: var(--black); color: var(--white); font-size: 0.7rem;">CHƯA KẾT NỐI</span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--gray-muted); margin-top: 3px;">
+              Mọi bài thi của học sinh sẽ tự động đồng bộ về link Google Apps Script này.
+            </p>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button id="btn-load-cloud" class="btn btn-solid-black" style="font-size: 0.8rem; padding: 6px 12px;" onclick="loadRecordsFromCloud()">
+              🔄 Tải điểm từ Google Sheets
+            </button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <input type="text" id="cloud-sheet-url" class="form-input" style="flex: 1; min-width: 250px; font-size: 0.82rem;" placeholder="Dán link Google Apps Script Web App (https://script.google.com/macros/s/.../exec)">
+          <button class="btn btn-outline-black" style="font-size: 0.82rem; padding: 6px 14px;" onclick="saveCloudUrl()">Lưu cấu hình</button>
+        </div>
+        <div id="cloud-status-msg" style="font-size: 0.8rem; margin-top: 8px; color: var(--gray-muted);"></div>
       </div>
 
       <!-- Admin Table -->
@@ -927,6 +977,165 @@
     let secondsLeft = EXAM_MINUTES * 60;
     let studentAnswers = {};
 
+    // ================= GOOGLE SHEETS CLOUD INTEGRATION =================
+    // Thầy/Cô có thể dán link Google Apps Script Web App trực tiếp vào đây hoặc cài trong trang Admin
+    const HARDCODED_CLOUD_URL = "";
+
+    function getCloudUrl() {
+      return localStorage.getItem("teky_cloud_sheet_url") || HARDCODED_CLOUD_URL || "";
+    }
+
+    function saveCloudUrl() {
+      const url = document.getElementById("cloud-sheet-url").value.trim();
+      localStorage.setItem("teky_cloud_sheet_url", url);
+      updateCloudBadge();
+      const msg = document.getElementById("cloud-status-msg");
+      if (url) {
+        msg.textContent = "✅ Đã lưu cấu hình Google Sheets! Các bài thi sẽ tự động đồng bộ về link này.";
+        msg.style.color = "#16a34a";
+      } else {
+        msg.textContent = "⚠️ Đã xóa cấu hình link Google Sheets.";
+        msg.style.color = "#ca8a04";
+      }
+    }
+
+    function updateCloudBadge() {
+      const badge = document.getElementById("cloud-badge");
+      const url = getCloudUrl();
+      if (!badge) return;
+      if (url && url.startsWith("http")) {
+        badge.textContent = "ĐÃ KẾT NỐI";
+        badge.style.background = "#16a34a";
+      } else {
+        badge.textContent = "CHƯA KẾT NỐI";
+        badge.style.background = "#000000";
+      }
+    }
+
+    function sendRecordsToCloud(items, onComplete) {
+      const url = getCloudUrl();
+      if (!url || !url.startsWith("http")) {
+        if (onComplete) onComplete(false);
+        return;
+      }
+
+      const payload = items.map(r => ({
+        id: r.id,
+        studentName: r.studentName,
+        attemptNumber: r.attemptNumber,
+        score: r.score,
+        mcqCorrect: r.mcqCorrect,
+        codeCorrect: r.codeCorrect,
+        totalQuestions: r.totalQuestions,
+        durationSeconds: r.durationSeconds,
+        date: r.date,
+        details: r.details
+      }));
+
+      fetch(url, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        if (onComplete) onComplete(true);
+      })
+      .catch(err => {
+        console.error("Lỗi đồng bộ Google Sheets:", err);
+        if (onComplete) onComplete(false);
+      });
+    }
+
+    function checkAndAutoSync(isManual = false) {
+      const all = getRecords();
+      if (!all || all.length === 0) return;
+
+      const unsynced = all.filter(r => !r.synced);
+      const banner = document.getElementById("sync-banner");
+
+      if (unsynced.length > 0) {
+        if (banner) {
+          banner.style.display = "block";
+          document.getElementById("sync-banner-title").textContent = `🔄 Phát hiện ${unsynced.length} bài thi cũ trên máy này`;
+          document.getElementById("sync-banner-desc").textContent = "Hệ thống đang tự động đồng bộ kết quả lên hệ thống của Giáo viên...";
+        }
+
+        const url = getCloudUrl();
+        if (!url || !url.startsWith("http")) {
+          if (banner) {
+            document.getElementById("sync-banner-title").textContent = `📋 Tìm thấy ${unsynced.length} bài thi đã làm trên máy này`;
+            document.getElementById("sync-banner-desc").textContent = "Chưa kết nối link Google Sheets của Giáo viên. Em hãy bấm nút 'Tải file điểm' bên cạnh để gửi cho Thầy/Cô nhé.";
+          }
+          return;
+        }
+
+        sendRecordsToCloud(unsynced, (success) => {
+          if (success) {
+            all.forEach(r => r.synced = true);
+            saveRecords(all);
+            if (banner) {
+              document.getElementById("sync-banner-title").textContent = "✅ Đã đồng bộ thành công!";
+              document.getElementById("sync-banner-desc").textContent = `Đã gửi thành công ${unsynced.length} bài thi lên Google Sheets của Giáo viên.`;
+              document.getElementById("btn-manual-sync").style.display = "none";
+              setTimeout(() => { banner.style.display = "none"; }, 6000);
+            }
+          } else if (isManual) {
+            alert("Chưa thể đồng bộ lúc này. Vui lòng kiểm tra lại kết nối mạng hoặc gửi file điểm cho Giáo viên.");
+          }
+        });
+      }
+    }
+
+    function loadRecordsFromCloud() {
+      const url = getCloudUrl();
+      if (!url || !url.startsWith("http")) {
+        alert("Vui lòng nhập link Google Apps Script Web App trước khi tải dữ liệu!");
+        document.getElementById("cloud-sheet-url").focus();
+        return;
+      }
+
+      const btn = document.getElementById("btn-load-cloud");
+      const oldTxt = btn.textContent;
+      btn.textContent = "⏳ Đang tải...";
+      btn.disabled = true;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(cloudRecords => {
+          btn.textContent = oldTxt;
+          btn.disabled = false;
+          if (Array.isArray(cloudRecords)) {
+            const local = getRecords();
+            const merged = [...cloudRecords];
+            local.forEach(l => {
+              const exists = merged.some(m => m.studentName === l.studentName && m.attemptNumber === l.attemptNumber && m.date === l.date);
+              if (!exists) merged.push(l);
+            });
+
+            saveRecords(merged);
+            renderAdminTable(merged);
+            alert(`Tải thành công ${cloudRecords.length} bài thi từ Google Sheets!`);
+          } else {
+            alert("Không tìm thấy dữ liệu bài thi hoặc cấu trúc chưa đúng.");
+          }
+        })
+        .catch(err => {
+          btn.textContent = oldTxt;
+          btn.disabled = false;
+          alert("Lỗi khi kết nối với Google Sheets: " + err.message + "\nHãy đảm bảo Web App được cấp quyền 'Anyone / Bất kỳ ai'.");
+        });
+    }
+
+    function exportStudentCSV() {
+      const all = getRecords();
+      if (all.length === 0) {
+        alert("Chưa có dữ liệu bài thi nào trên máy này!");
+        return;
+      }
+      exportCSV();
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       if (localStorage.getItem("teky_show_answers") === null) {
         localStorage.setItem("teky_show_answers", "true");
@@ -935,6 +1144,7 @@
         localStorage.setItem("teky_exam_records", JSON.stringify([]));
       }
       checkAttempts();
+      checkAndAutoSync();
     });
 
     function getRecords() {
@@ -1325,7 +1535,8 @@
         totalQuestions: TOTAL_QUESTIONS,
         durationSeconds: duration,
         date: new Date().toLocaleString("vi-VN"),
-        details: details
+        details: details,
+        synced: false
       };
 
       const all = getRecords();
@@ -1354,6 +1565,29 @@
       document.getElementById("res-meta").textContent = `Học viên: ${record.studentName} | Lần thi: ${record.attemptNumber} | Thời gian: ${Math.floor(record.durationSeconds/60)}p ${record.durationSeconds%60}s`;
       document.getElementById("res-mcq-correct").textContent = `${record.mcqCorrect} / ${NUM_MCQ}`;
       document.getElementById("res-code-correct").textContent = `${record.codeCorrect} / ${NUM_CODE}`;
+
+      const statusEl = document.getElementById("res-cloud-status");
+      if (getCloudUrl()) {
+        statusEl.textContent = "⏳ Đang gửi kết quả lên hệ thống Giáo viên...";
+        statusEl.style.color = "var(--black)";
+        sendRecordsToCloud([record], (success) => {
+          if (success) {
+            record.synced = true;
+            const currentAll = getRecords();
+            const found = currentAll.find(r => r.id === record.id);
+            if (found) found.synced = true;
+            saveRecords(currentAll);
+            statusEl.textContent = "✅ Đã lưu kết quả thành công lên Google Sheets của Giáo viên!";
+            statusEl.style.color = "#16a34a";
+          } else {
+            statusEl.textContent = "⚠️ Đã lưu trên máy này (Chưa gửi được lên Google Sheets, hãy bấm Tải file điểm gửi Thầy/Cô).";
+            statusEl.style.color = "#ca8a04";
+          }
+        });
+      } else {
+        statusEl.textContent = "💾 Đã lưu kết quả trên máy này.";
+        statusEl.style.color = "var(--gray-muted)";
+      }
 
       const past = getStudentRecords(record.studentName);
       const left = Math.max(0, MAX_ATTEMPTS - past.length);
@@ -1465,6 +1699,12 @@
       const toggle = document.getElementById("admin-toggle-input");
       toggle.checked = showAnswers;
       document.getElementById("toggle-status-lbl").textContent = showAnswers ? "ĐANG BẬT" : "ĐANG TẮT";
+
+      const cloudInput = document.getElementById("cloud-sheet-url");
+      if (cloudInput) {
+        cloudInput.value = getCloudUrl();
+      }
+      updateCloudBadge();
 
       renderAdminTable(records);
     }
