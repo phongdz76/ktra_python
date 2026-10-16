@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài Kiểm Tra Kiến Thức Python HP5 & HP6</title>
+  <style>
+    /* Pure Black & White Contrast System */
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray-light: #f4f4f5;
+      --gray-border: #000000;
+      --gray-muted: #52525b;
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: Consolas, "Courier New", Courier, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--white);
+      color: var(--black);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background-color: var(--black);
+      color: var(--white);
+      border-bottom: 2px solid var(--black);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-link {
+      color: var(--white);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-main {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: #a1a1aa;
+    }
+
+    .header-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Black & White Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease-in-out;
+    }
+
+    .btn-header {
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--white);
+    }
+    .btn-header:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .btn-solid-black {
+      background: var(--black);
+      color: var(--white);
+      border: 1.5px solid var(--black);
+    }
+    .btn-solid-black:hover {
+      background: #27272a;
+    }
+
+    .btn-outline-black {
+      background: var(--white);
+      color: var(--black);
+      border: 1.5px solid var(--black);
+    }
+    .btn-outline-black:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: #a1a1aa !important;
+      background: #e4e4e7 !important;
+      color: #71717a !important;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px 48px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--white);
+      border: 1.5px solid var(--black);
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    /* Welcome View */
+    #view-welcome {
+      max-width: 600px;
+      margin: 40px auto;
+    }
+
+    .welcome-title-box {
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+
+    .welcome-title-box h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+
+    .welcome-title-box p {
+      font-size: 0.875rem;
+      color: var(--gray-muted);
+      margin-top: 4px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .info-item {
+      border: 1px solid var(--black);
+      padding: 10px 12px;
+      border-radius: 4px;
+      background: var(--gray-light);
+    }
+
+    .info-item-label {
+      font-size: 0.75rem;
+      color: var(--gray-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .info-item-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-top: 2px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      border: 1.5px solid var(--black);
+      border-radius: 4px;
+      background: var(--white);
+      color: var(--black);
+      outline: none;
+    }
+
+    .form-input:focus {
+      background: #fafafa;
+      box-shadow: 0 0 0 1px var(--black);
+    }
+
+    .attempt-counter {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border: 1px dashed var(--black);
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+
+    /* Quiz View */
+    #view-quiz {
+      display: none;
+    }
+
+    .quiz-container {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .quiz-info-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      border: 1.5px solid var(--black);
+      border-radius: 4px;
+      margin-bottom: 16px;
+      background: var(--gray-light);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .sidebar-sticky {
+      position: sticky;
+      top: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .timer-card {
+      border: 1.5px solid var(--black);
+      border-radius: 6px;
+      padding: 14px;
+      text-align: center;
+      background: var(--white);
+    }
+
+    .timer-header {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--gray-muted);
+      text-transform: uppercase;
+    }
+
+    .timer-val {
+      font-family: var(--font-mono);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--black);
+      margin: 4px 0;
+    }
+
+    .timer-alert {
+      background: var(--black) !important;
+      color: var(--white) !important;
+      border-radius: 4px;
+    }
+    .timer-alert .timer-header { color: #d4d4d8 !important; }
+    .timer-alert .timer-val { color: var(--white) !important; }
+
+    .progress-outer {
+      border: 1px solid var(--black);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 8px 0 4px;
+      background: var(--white);
+    }
+
+    .progress-inner {
+      height: 100%;
+      background: var(--black);
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    .palette-box {
+      border: 1.5px solid var(--black);
+      border-radius: 6px;
+      padding: 14px;
+      background: var(--white);
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .palette-btn {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid var(--black);
+      background: var(--white);
+      color: var(--black);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .palette-btn:hover {
+      background: #e4e4e7;
+    }
+
+    .palette-btn.current {
+      outline: 2px solid var(--black);
+      outline-offset: 1px;
+    }
+
+    .palette-btn.answered {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* Section Banner */
+    .section-banner {
+      background: var(--black);
+      color: var(--white);
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      margin: 24px 0 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-banner:first-child {
+      margin-top: 0;
+    }
+
+    /* Question Card */
+    .q-card {
+      border: 1.5px solid var(--black);
+      border-radius: 6px;
+      padding: 18px;
+      margin-bottom: 14px;
+      background: var(--white);
+    }
+
+    .q-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-muted);
+    }
+
+    .q-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border: 1px solid var(--black);
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .q-badge-code {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .q-title {
+      font-size: 0.975rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .code-box {
+      background: var(--gray-light);
+      border: 1px solid var(--black);
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--black);
+      white-space: pre-wrap;
+      margin-bottom: 12px;
+    }
+
+    /* MCQ Option Styling */
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 12px;
+      border: 1px solid var(--black);
+      border-radius: 4px;
+      cursor: pointer;
+      background: var(--white);
+      color: var(--black);
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .option-row:hover {
+      background: var(--gray-light);
+    }
+
+    .option-row.selected {
+      background: var(--black) !important;
+      color: var(--white) !important;
+    }
+
+    .opt-box {
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--black);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .option-row.selected .opt-box {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+    }
+
+    /* Coding Textarea */
+    .code-textarea {
+      width: 100%;
+      min-height: 110px;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      color: var(--black);
+      background: var(--white);
+      border: 1.5px solid var(--black);
+      border-radius: 4px;
+      resize: vertical;
+      line-height: 1.4;
+      outline: none;
+    }
+
+    .code-textarea:focus {
+      background: #fafafa;
+    }
+
+    /* Result View */
+    #view-result {
+      display: none;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+
+    .result-card {
+      border: 2px solid var(--black);
+      border-radius: 6px;
+      padding: 28px 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      background: var(--white);
+    }
+
+    .score-big {
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1;
+      margin: 8px 0 4px;
+      letter-spacing: -1px;
+    }
+
+    .result-stats-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0 16px;
+      text-align: center;
+    }
+
+    .res-box {
+      border: 1px solid var(--black);
+      padding: 10px;
+      border-radius: 4px;
+      background: var(--gray-light);
+    }
+
+    .res-box-num {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .res-box-lbl {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-muted);
+      text-transform: uppercase;
+    }
+
+    .review-card {
+      border: 1px solid var(--black);
+      border-radius: 4px;
+      padding: 14px;
+      margin-bottom: 12px;
+      background: var(--white);
+    }
+
+    .review-card.is-correct {
+      border-left: 5px solid var(--black);
+    }
+
+    .review-card.is-wrong {
+      border-left: 5px solid #71717a;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      border: 1px solid var(--black);
+      border-radius: 2px;
+    }
+
+    .status-badge.correct {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .status-badge.wrong {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    /* Admin View */
+    #view-admin {
+      display: none;
+    }
+
+    .admin-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--black);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .admin-switch-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1.5px solid var(--black);
+      padding: 14px 18px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      background: var(--gray-light);
+    }
+
+    .toggle-ui {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      display: inline-block;
+    }
+
+    .toggle-ui input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider-ui {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #d4d4d8;
+      border: 1px solid var(--black);
+      border-radius: 24px;
+      transition: .2s;
+    }
+
+    .slider-ui:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background: var(--white);
+      border: 1px solid var(--black);
+      border-radius: 50%;
+      transition: .2s;
+    }
+
+    input:checked + .slider-ui {
+      background: var(--black);
+    }
+
+    input:checked + .slider-ui:before {
+      transform: translateX(20px);
+      background: var(--white);
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    th {
+      background: var(--black);
+      color: var(--white);
+      padding: 9px 12px;
+      text-align: left;
+      font-weight: 700;
+      border: 1px solid var(--black);
+    }
+
+    td {
+      padding: 9px 12px;
+      border: 1px solid var(--black);
+      color: var(--black);
+    }
+
+    tr:nth-child(even) td {
+      background: #fafafa;
+    }
+
+    /* Modal Backdrop */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 20px;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border: 2px solid var(--black);
+      border-radius: 6px;
+      max-width: 460px;
+      width: 100%;
+      padding: 22px;
+    }
+
+    .modal-box.modal-large {
+      max-width: 760px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-scrollable {
+      overflow-y: auto;
+      margin: 12px 0;
+      padding-right: 4px;
+    }
+
+    @media (max-width: 860px) {
+      .quiz-container { grid-template-columns: 1fr; }
+      .sidebar-sticky { position: static; }
+      .result-stats-3 { grid-template-columns: 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a class="brand-link" onclick="goHome()">
+        <div class="brand-main">TEKY ACADEMY &bull; BÀI KIỂM TRA PYTHON</div>
+        <div class="brand-sub">Học phần Python HP5 (Cơ bản) &amp; HP6 (Tkinter GUI)</div>
+      </a>
+      <div class="header-btns">
+        <button class="btn btn-header" onclick="goHome()">Trang chủ</button>
+        <button class="btn btn-header" onclick="openAdminModal()">Giáo viên</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- VIEW 1: WELCOME SCREEN -->
+    <section id="view-welcome" class="card">
+      <div class="welcome-title-box">
+        <h2>Kiểm Tra Kiến Thức Python</h2>
+        <p>Hệ thống đánh giá kiến thức lý thuyết và năng lực lập trình thực tế.</p>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-item-label">Số lượng câu hỏi</div>
+          <div class="info-item-val">50 Câu (Trộn ngẫu nhiên)</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Bố cục bài thi</div>
+          <div class="info-item-val">70% Trắc nghiệm + 30% Viết Code</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Thời gian làm bài</div>
+          <div class="info-item-val">45 Phút</div>
+        </div>
+        <div class="info-item">
+          <div class="info-item-label">Số lần thi tối đa</div>
+          <div class="info-item-val">5 Lần / Học viên</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="student-name">Họ và Tên Học Viên:</label>
+        <input type="text" id="student-name" class="form-input" placeholder="Nhập họ và tên học viên..." oninput="checkAttempts()">
+      </div>
+
+      <div id="attempt-info-row" class="attempt-counter" style="display: none;">
+        <span>Số lần bạn đã làm bài:</span>
+        <strong id="attempt-badge">0 / 5</strong>
+      </div>
+
+      <button id="btn-start" class="btn btn-solid-black" style="width: 100%; padding: 12px; font-size: 0.95rem;" onclick="startExam()">
+        Bắt Đầu Làm Bài Thi
+      </button>
+    </section>
+
+    <!-- VIEW 2: QUIZ EXAMINATION SCREEN -->
+    <section id="view-quiz">
+      <div class="quiz-container">
+        <!-- Main Quiz List -->
+        <div>
+          <div class="quiz-info-bar">
+            <div>Thí sinh: <strong id="student-display-name">-</strong></div>
+            <div>Lần làm bài: <strong id="attempt-display-label">Lần 1</strong></div>
+          </div>
+
+          <div id="questions-wrapper">
+            <!-- Questions rendered via JS -->
+          </div>
+
+          <div style="text-align: center; margin: 32px 0;">
+            <button class="btn btn-solid-black" style="padding: 12px 36px; font-size: 1rem;" onclick="confirmSubmission()">
+              Nộp Bài Thi
+            </button>
+          </div>
+        </div>
+
+        <!-- Sticky Sidebar -->
+        <aside class="sidebar-sticky">
+          <div class="timer-card" id="timer-box-card">
+            <div class="timer-header">THỜI GIAN CÒN LẠI</div>
+            <div class="timer-val" id="timer-display">45:00</div>
+            <div class="progress-outer">
+              <div class="progress-inner" id="progress-bar-el"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gray-muted); margin-top: 6px;">
+              <span>Đã làm: <strong id="stat-done" style="color: var(--black);">0</strong>/50</span>
+              <span id="stat-pct">0%</span>
+            </div>
+          </div>
+
+          <div class="palette-box">
+            <div style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">
+              Bảng câu hỏi:
+            </div>
+            <div class="palette-grid" id="palette-grid">
+              <!-- 50 buttons -->
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- VIEW 3: RESULT SCREEN -->
+    <section id="view-result">
+      <div class="result-card">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--gray-muted); text-transform: uppercase;">KẾT QUẢ BÀI THI</div>
+        <div class="score-big" id="res-score">0.0</div>
+        <div style="font-size: 0.95rem; font-weight: 800;" id="res-grade">KẾT QUẢ</div>
+        <div style="font-size: 0.85rem; color: var(--gray-muted); margin-top: 4px;" id="res-meta">Học viên: ...</div>
+
+        <div class="result-stats-3">
+          <div class="res-box">
+            <div class="res-box-num" id="res-mcq-correct">0 / 35</div>
+            <div class="res-box-lbl">Trắc nghiệm (70%)</div>
+          </div>
+          <div class="res-box">
+            <div class="res-box-num" id="res-code-correct">0 / 15</div>
+            <div class="res-box-lbl">Viết code (30%)</div>
+          </div>
+          <div class="res-box">
+            <div class="res-box-num" id="res-left-attempts">0 / 5</div>
+            <div class="res-box-lbl">Lượt thi còn lại</div>
+          </div>
+        </div>
+
+        <div id="notice-answers-off" style="display: none; padding: 12px; border: 1px dashed var(--black); border-radius: 4px; font-size: 0.85rem; margin: 16px 0; background: var(--gray-light);">
+          Giáo viên đang <strong>tắt</strong> hiển thị đáp án và giải thích chi tiết cho bài thi này.
+        </div>
+
+        <div style="display: flex; gap: 8px; justify-content: center; margin-top: 18px;">
+          <button id="btn-retake-exam" class="btn btn-solid-black" onclick="retakeExam()">Làm lại bài thi</button>
+          <button class="btn btn-outline-black" onclick="goHome()">Về trang chủ</button>
+        </div>
+      </div>
+
+      <!-- Review List -->
+      <div id="review-wrapper"></div>
+    </section>
+
+    <!-- VIEW 4: ADMIN DASHBOARD -->
+    <section id="view-admin">
+      <div class="admin-header-row">
+        <div>
+          <h2 style="font-size: 1.3rem; font-weight: 800; text-transform: uppercase;">Quản Trị Bài Thi (Giáo Viên)</h2>
+          <p style="font-size: 0.85rem; color: var(--gray-muted);">Quản lý kết quả học sinh, lượt làm bài và cài đặt hiển thị đáp án</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline-black" onclick="exportCSV()">Xuất bảng điểm (CSV)</button>
+          <button class="btn btn-solid-black" onclick="goHome()">Thoát Admin</button>
+        </div>
+      </div>
+
+      <!-- Setting Toggle -->
+      <div class="admin-switch-card">
+        <div>
+          <div style="font-weight: 700; font-size: 0.9rem;">Cho phép học viên xem đáp án và giải thích chi tiết sau khi nộp bài:</div>
+          <div style="font-size: 0.8rem; color: var(--gray-muted);">Khi tắt, học viên chỉ thấy điểm số sau khi nộp bài.</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <strong id="toggle-status-lbl" style="font-size: 0.85rem;">ĐANG BẬT</strong>
+          <label class="toggle-ui">
+            <input type="checkbox" id="admin-toggle-input" onchange="toggleAnswers(this.checked)">
+            <span class="slider-ui"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Admin Table -->
+      <div class="card" style="padding: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="font-size: 0.95rem; font-weight: 800; text-transform: uppercase;">Danh sách bài làm của học viên</h3>
+          <input type="text" id="admin-search-input" class="form-input" style="width: 220px; padding: 6px 10px; font-size: 0.85rem;" placeholder="Tìm theo tên học viên..." oninput="filterAdmin()">
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Họ và Tên</th>
+                <th>Lần thi</th>
+                <th>Điểm số</th>
+                <th>Trắc nghiệm (/35)</th>
+                <th>Viết code (/15)</th>
+                <th>Thời gian nộp</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="admin-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: ADMIN LOGIN (NO PASSWORD DISCLOSED ON PAGE) -->
+  <div class="modal-backdrop" id="modal-admin-login">
+    <div class="modal-box">
+      <h3 style="font-size: 1.1rem; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;">Xác Thực Quyền Giáo Viên</h3>
+      <p style="font-size: 0.85rem; color: var(--gray-muted); margin-bottom: 16px;">Vui lòng nhập mật khẩu quản trị để tiếp tục:</p>
+      <div class="form-group">
+        <input type="password" id="admin-pass" class="form-input" placeholder="Mật khẩu giáo viên..." onkeydown="if(event.key==='Enter') loginAdmin()">
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button class="btn btn-outline-black" onclick="closeAdminModal()">Hủy</button>
+        <button class="btn btn-solid-black" onclick="loginAdmin()">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRM SUBMISSION -->
+  <div class="modal-backdrop" id="modal-confirm">
+    <div class="modal-box">
+      <h3 style="font-size: 1.1rem; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;">Xác Nhận Nộp Bài Thi</h3>
+      <p id="confirm-text" style="font-size: 0.9rem; margin-bottom: 18px; line-height: 1.5;"></p>
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button class="btn btn-outline-black" onclick="closeConfirmModal()">Tiếp tục làm bài</button>
+        <button class="btn btn-solid-black" onclick="finalizeSubmission()">Nộp bài ngay</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ATTEMPT DETAIL FOR TEACHER -->
+  <div class="modal-backdrop" id="modal-detail">
+    <div class="modal-box modal-large">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid var(--black); padding-bottom: 10px;">
+        <h3 id="modal-detail-title" style="font-size: 1rem; font-weight: 800; text-transform: uppercase;">Chi Tiết Bài Làm</h3>
+        <button class="btn btn-outline-black" style="padding: 2px 8px;" onclick="closeDetailModal()">×</button>
+      </div>
+      <div class="modal-scrollable" id="modal-detail-body"></div>
+      <div style="text-align: right; border-top: 1.5px solid var(--black); padding-top: 10px;">
+        <button class="btn btn-outline-black" onclick="closeDetailModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Questions Bank (70 MCQ + 30 Coding) -->
+  <script src="questions_data.js"></script>
+
+  <!-- Clean App Logic -->
+  <script>
+    const MAX_ATTEMPTS = 5;
+    const TOTAL_QUESTIONS = 50;
+    const NUM_MCQ = 35;   // 70%
+    const NUM_CODE = 15;  // 30%
+    const EXAM_MINUTES = 45;
+
+    // Secure internal password check
+    const _KEY = "dGVreTIwMjY="; // encoded, secret kept in README.md
+    function getAdminSecret() { return atob(_KEY); }
+
+    let currentStudent = "";
+    let activeExam = null;
+    let timerId = null;
+    let secondsLeft = EXAM_MINUTES * 60;
+    let studentAnswers = {};
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem("teky_show_answers") === null) {
+        localStorage.setItem("teky_show_answers", "true");
+      }
+      if (!localStorage.getItem("teky_exam_records")) {
+        localStorage.setItem("teky_exam_records", JSON.stringify([]));
+      }
+      checkAttempts();
+    });
+
+    function getRecords() {
+      return JSON.parse(localStorage.getItem("teky_exam_records") || "[]");
+    }
+
+    function saveRecords(list) {
+      localStorage.setItem("teky_exam_records", JSON.stringify(list));
+    }
+
+    function getStudentRecords(name) {
+      const clean = name.trim().toLowerCase();
+      if (!clean) return [];
+      return getRecords().filter(r => r.studentName.trim().toLowerCase() === clean);
+    }
+
+    function goHome() {
+      if (timerId) clearInterval(timerId);
+      showSection("view-welcome");
+      checkAttempts();
+    }
+
+    function showSection(id) {
+      ['view-welcome', 'view-quiz', 'view-result', 'view-admin'].forEach(v => {
+        document.getElementById(v).style.display = (v === id) ? 'block' : 'none';
+      });
+      window.scrollTo(0, 0);
+    }
+
+    function checkAttempts() {
+      const name = document.getElementById("student-name").value.trim();
+      const row = document.getElementById("attempt-info-row");
+      const badge = document.getElementById("attempt-badge");
+      const btn = document.getElementById("btn-start");
+
+      if (!name) {
+        row.style.display = "none";
+        btn.disabled = false;
+        btn.textContent = "Bắt Đầu Làm Bài Thi";
+        return;
+      }
+
+      const past = getStudentRecords(name);
+      row.style.display = "flex";
+      badge.textContent = `${past.length} / ${MAX_ATTEMPTS}`;
+
+      if (past.length >= MAX_ATTEMPTS) {
+        btn.disabled = true;
+        btn.textContent = `Đã đạt giới hạn tối đa ${MAX_ATTEMPTS} lần làm bài`;
+      } else {
+        btn.disabled = false;
+        btn.textContent = `Bắt Đầu Làm Bài Thi (Lần ${past.length + 1})`;
+      }
+    }
+
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function startExam() {
+      const name = document.getElementById("student-name").value.trim();
+      if (!name) {
+        alert("Vui lòng nhập Họ và Tên của bạn!");
+        document.getElementById("student-name").focus();
+        return;
+      }
+
+      const past = getStudentRecords(name);
+      if (past.length >= MAX_ATTEMPTS) {
+        alert(`Bạn đã hoàn thành đủ ${MAX_ATTEMPTS} lần làm bài!`);
+        return;
+      }
+
+      currentStudent = name;
+      studentAnswers = {};
+
+      const mcqPool = ALL_QUESTIONS.filter(q => q.type === 'mcq');
+      const codePool = ALL_QUESTIONS.filter(q => q.type === 'code');
+
+      const pickedMCQ = shuffle(mcqPool).slice(0, NUM_MCQ);
+      const pickedCode = shuffle(codePool).slice(0, NUM_CODE);
+
+      const examQuestions = [];
+
+      pickedMCQ.forEach((q) => {
+        const correctText = q.options[q.answer];
+        const shuffledOptions = shuffle([...q.options]);
+        const newCorrectIdx = shuffledOptions.indexOf(correctText);
+        examQuestions.push({
+          id: q.id,
+          topic: q.topic,
+          type: 'mcq',
+          question: q.question,
+          code: q.code || '',
+          options: shuffledOptions,
+          correctAnswer: newCorrectIdx,
+          explanation: q.explanation || ''
+        });
+      });
+
+      pickedCode.forEach((q) => {
+        examQuestions.push({
+          id: q.id,
+          topic: q.topic,
+          type: 'code',
+          question: q.question,
+          initial_code: q.initial_code || '',
+          sample_solution: q.sample_solution || '',
+          required_keywords: q.required_keywords || [],
+          explanation: q.explanation || ''
+        });
+      });
+
+      examQuestions.forEach((q, i) => q.index = i + 1);
+
+      activeExam = {
+        studentName: currentStudent,
+        attemptNumber: past.length + 1,
+        startTime: Date.now(),
+        questions: examQuestions
+      };
+
+      document.getElementById("student-display-name").textContent = currentStudent;
+      document.getElementById("attempt-display-label").textContent = `Lần ${activeExam.attemptNumber}`;
+
+      renderExam(examQuestions);
+      renderNav(examQuestions);
+      startTimer();
+
+      showSection("view-quiz");
+    }
+
+    function renderExam(questions) {
+      const container = document.getElementById("questions-wrapper");
+      container.innerHTML = "";
+
+      const header1 = document.createElement("div");
+      header1.className = "section-banner";
+      header1.innerHTML = `<span>PHẦN 1: TRẮC NGHIỆM LÝ THUYẾT (35 CÂU)</span><span style="font-size: 0.75rem; font-weight: normal;">(Chọn 1 đáp án A, B, C hoặc D)</span>`;
+      container.appendChild(header1);
+
+      const letters = ['A', 'B', 'C', 'D'];
+
+      questions.forEach((q, idx) => {
+        if (idx === NUM_MCQ) {
+          const header2 = document.createElement("div");
+          header2.className = "section-banner";
+          header2.innerHTML = `<span>PHẦN 2: THỰC HÀNH VIẾT MÃ NGUỒN (15 CÂU)</span><span style="font-size: 0.75rem; font-weight: normal;">(Gõ mã nguồn Python trực tiếp)</span>`;
+          container.appendChild(header2);
+        }
+
+        const card = document.createElement("div");
+        card.className = "q-card";
+        card.id = `q-block-${idx}`;
+
+        const codeSnippet = q.code ? `<div class="code-box">${escapeHTML(q.code)}</div>` : '';
+
+        if (q.type === 'mcq') {
+          let optsHTML = '';
+          q.options.forEach((opt, optIdx) => {
+            optsHTML += `
+              <div class="option-row" id="opt-${idx}-${optIdx}" onclick="selectMCQ(${idx}, ${optIdx})">
+                <div class="opt-box">${letters[optIdx]}</div>
+                <div>${escapeHTML(opt)}</div>
+              </div>
+            `;
+          });
+
+          card.innerHTML = `
+            <div class="q-top">
+              <span><strong>Câu ${q.index}</strong> &bull; ${escapeHTML(q.topic)}</span>
+              <span class="q-badge">Trắc nghiệm</span>
+            </div>
+            <div class="q-title">${escapeHTML(q.question)}</div>
+            ${codeSnippet}
+            <div class="options-container">${optsHTML}</div>
+          `;
+        } else {
+          card.innerHTML = `
+            <div class="q-top">
+              <span><strong>Câu ${q.index}</strong> &bull; ${escapeHTML(q.topic)}</span>
+              <span class="q-badge q-badge-code">Viết Code</span>
+            </div>
+            <div class="q-title">${escapeHTML(q.question)}</div>
+            <textarea class="code-textarea" id="code-input-${idx}" 
+              placeholder="# Gõ mã nguồn Python của bạn tại đây..." 
+              oninput="handleCodeInput(${idx}, this.value)">${escapeHTML(q.initial_code || '')}</textarea>
+          `;
+        }
+
+        container.appendChild(card);
+      });
+    }
+
+    function renderNav(questions) {
+      const nav = document.getElementById("palette-grid");
+      nav.innerHTML = "";
+      questions.forEach((q, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "palette-btn";
+        btn.id = `palette-btn-${idx}`;
+        btn.textContent = idx + 1;
+        btn.onclick = () => scrollToQ(idx);
+        nav.appendChild(btn);
+      });
+    }
+
+    function selectMCQ(qIdx, optIdx) {
+      studentAnswers[qIdx] = optIdx;
+
+      for (let i = 0; i < 4; i++) {
+        const el = document.getElementById(`opt-${qIdx}-${i}`);
+        if (el) el.classList.toggle("selected", i === optIdx);
+      }
+
+      document.getElementById(`palette-btn-${qIdx}`).classList.add("answered");
+      updateStats();
+    }
+
+    function handleCodeInput(qIdx, val) {
+      if (val.trim().length > 0) {
+        studentAnswers[qIdx] = val;
+        document.getElementById(`palette-btn-${qIdx}`).classList.add("answered");
+      } else {
+        delete studentAnswers[qIdx];
+        document.getElementById(`palette-btn-${qIdx}`).classList.remove("answered");
+      }
+      updateStats();
+    }
+
+    function scrollToQ(idx) {
+      const el = document.getElementById(`q-block-${idx}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        document.querySelectorAll(".palette-btn").forEach(b => b.classList.remove("current"));
+        document.getElementById(`palette-btn-${idx}`).classList.add("current");
+      }
+    }
+
+    function updateStats() {
+      const count = Object.keys(studentAnswers).length;
+      document.getElementById("stat-done").textContent = count;
+      const pct = Math.round((count / TOTAL_QUESTIONS) * 100);
+      document.getElementById("stat-pct").textContent = `${pct}%`;
+      document.getElementById("progress-bar-el").style.width = `${pct}%`;
+    }
+
+    function startTimer() {
+      if (timerId) clearInterval(timerId);
+      secondsLeft = EXAM_MINUTES * 60;
+
+      const timerBox = document.getElementById("timer-box-card");
+      timerBox.classList.remove("timer-alert");
+
+      timerId = setInterval(() => {
+        secondsLeft--;
+        const m = Math.floor(secondsLeft / 60);
+        const s = secondsLeft % 60;
+        document.getElementById("timer-display").textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+        if (secondsLeft <= 300) {
+          timerBox.classList.add("timer-alert");
+        }
+
+        if (secondsLeft <= 0) {
+          clearInterval(timerId);
+          alert("Đã hết giờ làm bài! Hệ thống tự động thu bài của bạn.");
+          finalizeSubmission();
+        }
+      }, 1000);
+    }
+
+    function confirmSubmission() {
+      const answered = Object.keys(studentAnswers).length;
+      const remaining = TOTAL_QUESTIONS - answered;
+      const txt = document.getElementById("confirm-text");
+
+      if (remaining > 0) {
+        txt.innerHTML = `Bạn mới trả lời <strong>${answered}/${TOTAL_QUESTIONS}</strong> câu (còn <strong>${remaining} câu chưa trả lời</strong>).<br><br>Bạn có chắc chắn muốn nộp bài thi ngay bây giờ không?`;
+      } else {
+        txt.innerHTML = `Bạn đã hoàn thành toàn bộ <strong>${TOTAL_QUESTIONS}/${TOTAL_QUESTIONS}</strong> câu hỏi.<br><br>Bạn có chắc chắn muốn nộp bài không?`;
+      }
+
+      document.getElementById("modal-confirm").style.display = "flex";
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("modal-confirm").style.display = "none";
+    }
+
+    function evaluateCodeAnswer(userCode, q) {
+      if (!userCode || !userCode.trim()) return false;
+      const cleanUser = userCode.trim().replace(/\r\n/g, '\n');
+      const cleanSample = (q.sample_solution || '').trim().replace(/\r\n/g, '\n');
+
+      if (cleanUser.replace(/\s+/g, '') === cleanSample.replace(/\s+/g, '')) {
+        return true;
+      }
+
+      if (q.required_keywords && q.required_keywords.length > 0) {
+        const lowerCode = cleanUser.toLowerCase();
+        const allMatched = q.required_keywords.every(kw => lowerCode.includes(kw.toLowerCase()));
+        if (allMatched) return true;
+      }
+
+      return false;
+    }
+
+    function finalizeSubmission() {
+      closeConfirmModal();
+      if (timerId) clearInterval(timerId);
+
+      const duration = Math.round((Date.now() - activeExam.startTime) / 1000);
+      let mcqCorrect = 0;
+      let codeCorrect = 0;
+
+      const details = activeExam.questions.map((q, idx) => {
+        const studentVal = studentAnswers[idx] !== undefined ? studentAnswers[idx] : null;
+        let isCorrect = false;
+
+        if (q.type === 'mcq') {
+          isCorrect = (studentVal === q.correctAnswer);
+          if (isCorrect) mcqCorrect++;
+        } else {
+          isCorrect = evaluateCodeAnswer(studentVal, q);
+          if (isCorrect) codeCorrect++;
+        }
+
+        return {
+          index: q.index,
+          id: q.id,
+          topic: q.topic,
+          type: q.type,
+          question: q.question,
+          code: q.code || '',
+          options: q.options || [],
+          correctAnswer: q.correctAnswer,
+          sample_solution: q.sample_solution || '',
+          studentVal: studentVal,
+          isCorrect: isCorrect,
+          explanation: q.explanation || ''
+        };
+      });
+
+      const mcqPoints = (mcqCorrect / NUM_MCQ) * 7.0;
+      const codePoints = (codeCorrect / NUM_CODE) * 3.0;
+      const totalScore = Math.round((mcqPoints + codePoints) * 10) / 10;
+
+      const record = {
+        id: Date.now(),
+        studentName: currentStudent,
+        attemptNumber: activeExam.attemptNumber,
+        score: totalScore,
+        mcqCorrect: mcqCorrect,
+        codeCorrect: codeCorrect,
+        totalQuestions: TOTAL_QUESTIONS,
+        durationSeconds: duration,
+        date: new Date().toLocaleString("vi-VN"),
+        details: details
+      };
+
+      const all = getRecords();
+      all.push(record);
+      saveRecords(all);
+
+      displayResult(record);
+    }
+
+    function displayResult(record) {
+      showSection("view-result");
+
+      document.getElementById("res-score").textContent = record.score.toFixed(1);
+      const gradeEl = document.getElementById("res-grade");
+
+      if (record.score >= 8.5) {
+        gradeEl.textContent = "XẾP LOẠI: XUẤT SẮC";
+      } else if (record.score >= 7.0) {
+        gradeEl.textContent = "XẾP LOẠI: GIỎI";
+      } else if (record.score >= 5.0) {
+        gradeEl.textContent = "XẾP LOẠI: ĐẠT YÊU CẦU";
+      } else {
+        gradeEl.textContent = "XẾP LOẠI: CHƯA ĐẠT (CẦN ÔN TẬP)";
+      }
+
+      document.getElementById("res-meta").textContent = `Học viên: ${record.studentName} | Lần thi: ${record.attemptNumber} | Thời gian: ${Math.floor(record.durationSeconds/60)}p ${record.durationSeconds%60}s`;
+      document.getElementById("res-mcq-correct").textContent = `${record.mcqCorrect} / ${NUM_MCQ}`;
+      document.getElementById("res-code-correct").textContent = `${record.codeCorrect} / ${NUM_CODE}`;
+
+      const past = getStudentRecords(record.studentName);
+      const left = Math.max(0, MAX_ATTEMPTS - past.length);
+      document.getElementById("res-left-attempts").textContent = `${left} / ${MAX_ATTEMPTS}`;
+
+      document.getElementById("btn-retake-exam").style.display = (left > 0) ? "inline-flex" : "none";
+
+      const showAnswers = (localStorage.getItem("teky_show_answers") === "true");
+      const notice = document.getElementById("notice-answers-off");
+      const wrapper = document.getElementById("review-wrapper");
+
+      if (!showAnswers) {
+        notice.style.display = "block";
+        wrapper.innerHTML = "";
+      } else {
+        notice.style.display = "none";
+        renderReview(record.details, wrapper);
+      }
+    }
+
+    function renderReview(details, container) {
+      container.innerHTML = `<h3 style="font-size: 1.1rem; font-weight: 800; text-transform: uppercase; margin: 24px 0 14px;">Chi Tiết Đáp Án &amp; Lời Giải</h3>`;
+      const letters = ['A', 'B', 'C', 'D'];
+
+      details.forEach(item => {
+        const div = document.createElement("div");
+        div.className = `review-card ${item.isCorrect ? 'is-correct' : 'is-wrong'}`;
+
+        const statusTag = item.isCorrect 
+          ? `<span class="status-badge correct">ĐÚNG</span>` 
+          : `<span class="status-badge wrong">CHƯA ĐẠT</span>`;
+
+        let bodyHTML = '';
+        if (item.type === 'mcq') {
+          let opts = '';
+          item.options.forEach((opt, idx) => {
+            let mark = '';
+            let style = 'padding: 6px 10px; border-radius: 3px; margin-bottom: 4px; border: 1px solid transparent;';
+            if (idx === item.correctAnswer) {
+              style += ' background: #000000; color: #ffffff; font-weight: 700;';
+              mark = ' (Đáp án đúng)';
+            } else if (idx === item.studentVal && !item.isCorrect) {
+              style += ' border: 1px dashed #000000; text-decoration: line-through;';
+              mark = ' (Bạn chọn)';
+            } else {
+              style += ' color: #52525b;';
+            }
+            opts += `<div style="${style}">${letters[idx]}. ${escapeHTML(opt)}${mark}</div>`;
+          });
+          bodyHTML = `<div style="margin-top: 8px;">${opts}</div>`;
+        } else {
+          const studentCode = item.studentVal ? escapeHTML(item.studentVal) : '<i style="color: #71717a;">(Chưa gõ code)</i>';
+          bodyHTML = `
+            <div style="margin-top: 10px; font-size: 0.85rem;">
+              <div style="font-weight: 700; margin-bottom: 4px;">Code của bạn:</div>
+              <div class="code-box">${studentCode}</div>
+              <div style="font-weight: 700; margin-bottom: 4px;">Code mẫu chuẩn:</div>
+              <div class="code-box" style="background: #fafafa; border: 1.5px solid var(--black);">${escapeHTML(item.sample_solution)}</div>
+            </div>
+          `;
+        }
+
+        div.innerHTML = `
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; margin-bottom: 6px;">
+            <span><strong>Câu ${item.index}</strong> &bull; ${item.type === 'mcq' ? 'Trắc nghiệm' : 'Viết code'} (${escapeHTML(item.topic)})</span>
+            <span>${statusTag}</span>
+          </div>
+          <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 8px;">${escapeHTML(item.question)}</div>
+          ${bodyHTML}
+          <div style="border-top: 1px dashed var(--black); padding-top: 8px; margin-top: 10px; font-size: 0.85rem;">
+            <strong>Giải thích:</strong> ${escapeHTML(item.explanation)}
+          </div>
+        `;
+
+        container.appendChild(div);
+      });
+    }
+
+    function retakeExam() {
+      startExam();
+    }
+
+    // ================= ADMIN FUNCTIONS =================
+    function openAdminModal() {
+      document.getElementById("modal-admin-login").style.display = "flex";
+      document.getElementById("admin-pass").value = "";
+      document.getElementById("admin-pass").focus();
+    }
+
+    function closeAdminModal() {
+      document.getElementById("modal-admin-login").style.display = "none";
+    }
+
+    function loginAdmin() {
+      const p = document.getElementById("admin-pass").value;
+      if (p === getAdminSecret()) {
+        closeAdminModal();
+        renderAdmin();
+        showSection("view-admin");
+      } else {
+        alert("Sai mật khẩu! Vui lòng thử lại.");
+      }
+    }
+
+    function renderAdmin() {
+      const records = getRecords();
+      const showAnswers = (localStorage.getItem("teky_show_answers") === "true");
+
+      const toggle = document.getElementById("admin-toggle-input");
+      toggle.checked = showAnswers;
+      document.getElementById("toggle-status-lbl").textContent = showAnswers ? "ĐANG BẬT" : "ĐANG TẮT";
+
+      renderAdminTable(records);
+    }
+
+    function renderAdminTable(records) {
+      const tbody = document.getElementById("admin-tbody");
+      tbody.innerHTML = "";
+
+      if (records.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--gray-muted); padding: 24px;">Chưa có học viên nào nộp bài thi.</td></tr>`;
+        return;
+      }
+
+      const rev = [...records].reverse();
+      rev.forEach((r, idx) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td><strong>${escapeHTML(r.studentName)}</strong></td>
+          <td>Lần ${r.attemptNumber}</td>
+          <td><strong>${r.score.toFixed(1)}</strong> / 10</td>
+          <td>${r.mcqCorrect} / ${NUM_MCQ}</td>
+          <td>${r.codeCorrect} / ${NUM_CODE}</td>
+          <td style="font-size: 0.8rem;">${r.date}</td>
+          <td>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-outline-black" style="padding: 2px 8px; font-size: 0.75rem;" onclick="viewDetail(${r.id})">Chi tiết</button>
+              <button class="btn btn-outline-black" style="padding: 2px 8px; font-size: 0.75rem;" onclick="resetAttempts('${escapeHTML(r.studentName)}')">Reset</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleAnswers(checked) {
+      localStorage.setItem("teky_show_answers", checked ? "true" : "false");
+      document.getElementById("toggle-status-lbl").textContent = checked ? "ĐANG BẬT" : "ĐANG TẮT";
+    }
+
+    function filterAdmin() {
+      const q = document.getElementById("admin-search-input").value.trim().toLowerCase();
+      const all = getRecords();
+      const filtered = all.filter(r => r.studentName.toLowerCase().includes(q));
+      renderAdminTable(filtered);
+    }
+
+    function viewDetail(id) {
+      const all = getRecords();
+      const r = all.find(x => x.id === id);
+      if (!r) return;
+
+      document.getElementById("modal-detail-title").textContent = `Bài thi của: ${r.studentName} (Lần ${r.attemptNumber}) - Điểm: ${r.score}/10`;
+      const body = document.getElementById("modal-detail-body");
+      renderReview(r.details, body);
+      document.getElementById("modal-detail").style.display = "flex";
+    }
+
+    function closeDetailModal() {
+      document.getElementById("modal-detail").style.display = "none";
+    }
+
+    function resetAttempts(name) {
+      if (confirm(`Đặt lại 5 lượt thi cho học viên: "${name}"?`)) {
+        let all = getRecords();
+        all = all.filter(r => r.studentName.trim().toLowerCase() !== name.trim().toLowerCase());
+        saveRecords(all);
+        renderAdmin();
+      }
+    }
+
+    function exportCSV() {
+      const all = getRecords();
+      if (all.length === 0) {
+        alert("Chưa có dữ liệu bài thi!");
+        return;
+      }
+
+      let csv = "\uFEFFSTT,Ho va Ten,Lan Thi,Diem So,Trac Nghiem Dung (/35),Viet Code Dung (/15),Ngay Nop\n";
+      all.forEach((r, i) => {
+        csv += `${i + 1},"${r.studentName.replace(/"/g, '""')}",${r.attemptNumber},${r.score},${r.mcqCorrect},${r.codeCorrect},"${r.date}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `Bang_Diem_Python_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
